@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "509024818122",
+    "project_id": "my-vacations-98a64",
+    "storage_bucket": "my-vacations-98a64.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509024818122:android:9a161e2d6afc926076f533",
+        "android_client_info": {
+          "package_name": "es.jesus24041998.myvacations"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "509024818122-7clk6235m7ui09sl58v0391hgpr49hd4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.jesus24041998.myvacations",
+            "certificate_hash": "2aeae1c9b78515d2a98aa00f01fb667ddef8c68c"
+          }
+        },
+        {
+          "client_id": "509024818122-acomfkbc7sfuo5cu7s6eq9k339h74pau.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAa-78hquJPbovFgjXOkVtDiNihbEYKyJw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "509024818122-acomfkbc7sfuo5cu7s6eq9k339h74pau.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

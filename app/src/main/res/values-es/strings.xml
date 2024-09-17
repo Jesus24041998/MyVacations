@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">Mis Vacaciones</string>
+    <!-- LoginScreen -->
+    <string name="lshead">Inicia sesión o regístrate</string>
+    <string name="lcontinue">Continuar</string>
+    <string name="lcancel">Cancelar</string>
+    <string name="lmail">Correo electrónico</string>
+    <string name="lpass">Contraseña</string>
+    <string name="lphone">Número de teléfono</string>
+    <string name="lresent">Reenviar</string>
+    <string name="lcontinueguest">Continua sin loguearte</string>
+    <string name="lerror">Error al iniciar sesión</string>
+    <string name="lemailbadformed">El email o la contraseña no son válidos</string>
+    <string name="lemailsend">La verificación a sido enviada</string>
+    <string name="lemailresend">La verificación a sido reenviada</string>
+    <string name="lemailresendError">La verificación a sido reenviada demasiadas veces espere unos minutos</string>
+    <string name="lemailv">El email no está verificado</string>
+    <string name="lclose">¿Cerrar sesión?</string>
+    <string name="lclosesesion">¿Vas a cerrar sesión, estas seguro?</string>
+    <string name="lsuccess">Inicio de sesión exitoso</string>
+    <string name="lanonymous">Inicio de sesión anónimo</string>
+    <string name="lwcredentials">Credenciales erroneas</string>
+    <string name="lablock">El acceso a la cuenta a sido temporalmente deshabilitado debido a muchos intentos de inicio de sesión fallidos. Inténtalo más tarde.</string>
+
+    <!-- MainScreen -->
+    <string name="navtravel">Tus viajes</string>
+    <string name="navsearch">Busqueda</string>
+    <string name="navaccount">Cuenta</string>
+
+    <!-- AccountScreen -->
+    <string name="accountprofile">Perfil</string>
+    <string name="accountusername">Nombre de usuario</string>
+    <string name="accountpolitices">Política de privacidad</string>
+    <string name="accounttitleinfo">Información</string>
+    <string name="accountdescriptioninfo">Usar una cuenta de Invitados significa que tus viajes no serán guardados en la nube, solo en tu dispositivo.</string>
+    <string name="accountlogout">Cerrar sesion</string>
+    <string name="accountnoconnect">¿Sin cuenta?, Inicia sesión ahora.</string>
+    <string name="accountassitance">Asistencia</string>
+    <string name="accountcontact">Contacto</string>
+    <string name="accountlegal">Legal</string>
+    <string name="accountguest">Invitado</string>
+    <string name="app_version">Versión de la aplicación</string>
+</resources>
