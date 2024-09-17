@@ -1,3 +1,44 @@
 <resources>
     <string name="app_name">MyVacations</string>
+
+    <!-- LoginScreen -->
+    <string name="lshead">Login or signing</string>
+    <string name="lcontinue">Continue</string>
+    <string name="lcancel">Cancel</string>
+    <string name="lmail">Email</string>
+    <string name="lpass">Password</string>
+    <string name="lphone">Phone number</string>
+    <string name="lresent">Resend</string>
+    <string name="lcontinueguest">Continue without login</string>
+    <string name="lerror">Login error</string>
+    <string name="lemailbadformed">Email or password malformed</string>
+    <string name="lemailsend">The verification email has been sent</string>
+    <string name="lemailresend">The verification email has been resent</string>
+    <string name="lemailresendError">The verification email has been resent too many times , wait a few minutes</string>
+    <string name="lemailv">Email is not verified</string>
+    <string name="lclose">Close session?</string>
+    <string name="lclosesesion">You are going to close the session, are you sure?</string>
+    <string name="lsuccess">Login success</string>
+    <string name="lanonymous">Anonymous login success</string>
+    <string name="lwcredentials">Wrong credentials</string>
+    <string name="lablock">Access to this account has been temporarily disabled due to many failed login attempts. Try again later.</string>
+
+    <!-- MainScreen -->
+    <string name="navtravel">Your travels</string>
+    <string name="navsearch">Search</string>
+    <string name="navaccount">Account</string>
+
+    <!-- AccountScreen -->
+    <string name="accountprofile">Profile</string>
+    <string name="accountusername">Username</string>
+    <string name="accountpolitices">Privacy policy</string>
+    <string name="accounttitleinfo">Information</string>
+    <string name="accountdescriptioninfo">Use a guest account means that your travels will not be saved in the cloud, only in your device.</string>
+    <string name="accountlogout">Logout</string>
+    <string name="accountnoconnect">No account?, Login now.</string>
+    <string name="accountassitance">Assistance</string>
+    <string name="accountcontact">Contact</string>
+    <string name="accountlegal">Legal</string>
+    <string name="accountguest">Guest</string>
+    <string name="app_version">App version</string>
 </resources>
