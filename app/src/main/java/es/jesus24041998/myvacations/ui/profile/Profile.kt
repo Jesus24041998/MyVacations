@@ -8,18 +8,26 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -41,8 +49,12 @@ import es.jesus24041998.myvacations.ui.home.HomeViewModel
 import es.jesus24041998.myvacations.ui.theme.MyVacationsTheme
 import es.jesus24041998.myvacations.BuildConfig
 import es.jesus24041998.myvacations.R
+import es.jesus24041998.myvacations.ui.datastore.Coin
 import es.jesus24041998.myvacations.utils.CardInfo
 import es.jesus24041998.myvacations.utils.MyAlertDialog
+import es.jesus24041998.myvacations.utils.monedasMasFamosas
+import java.util.Currency
+import java.util.Locale
 
 @Composable
 @Preview(showBackground = true)
@@ -68,7 +80,7 @@ private fun ProfileView(
     viewModel: HomeViewModel? = null,
     onNavigateToLogin: () -> Unit,
     onNavigateToPolitics: () -> Unit,
-    loading: Boolean = false
+    loading: Boolean = false,
 ) {
     val context = LocalContext.current
     var showDialog by remember { mutableStateOf(false) }
@@ -79,6 +91,7 @@ private fun ProfileView(
         data = Uri.parse("mailto:") // Solo email
         putExtra(Intent.EXTRA_EMAIL, arrayOf("my.vacations.es@gmail.com"))
     }
+
     BaseScreen(content = {
         Column(modifier = Modifier
             .fillMaxSize()
@@ -125,6 +138,7 @@ private fun ProfileView(
             }
 
             Spacer(modifier = Modifier.height(4.dp))
+
             if(user?.isAnonymous == true) {
                 Text(
                     text = stringResource(id = R.string.accountnoconnect),

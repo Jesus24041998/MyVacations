@@ -27,17 +27,27 @@
     <string name="navsearch">Busqueda</string>
     <string name="navaccount">Cuenta</string>
 
+    <!-- MyTravelScreen -->
+    <string name="notravels">No hay viajes aún, agrega tu primer viaje </string>
+    <string name="travelname">Viajes</string>
+    <string name="travelstart">Inicio</string>
+    <string name="travelend">Final</string>
+    <string name="travelactivities">Actividades</string>
+    <string name="travelextras">Extras</string>
+    <string name="totalspended">Total gastado</string>
+
     <!-- AccountScreen -->
     <string name="accountprofile">Perfil</string>
     <string name="accountusername">Nombre de usuario</string>
     <string name="accountpolitices">Política de privacidad</string>
     <string name="accounttitleinfo">Información</string>
-    <string name="accountdescriptioninfo">Usar una cuenta de Invitados significa que tus viajes no serán guardados en la nube, solo en tu dispositivo.</string>
+    <string name="accountdescriptioninfo">Usar una cuenta de Invitados significa que tus viajes no serán guardados en la nube, solo en tu dispositivo. Se perderán si borras o desinstalas la aplicación a no ser que inicies sesión</string>
     <string name="accountlogout">Cerrar sesion</string>
     <string name="accountnoconnect">¿Sin cuenta?, Inicia sesión ahora.</string>
     <string name="accountassitance">Asistencia</string>
     <string name="accountcontact">Contacto</string>
     <string name="accountlegal">Legal</string>
     <string name="accountguest">Invitado</string>
+    <string name="accountcoin">Moneda: </string>
     <string name="app_version">Versión de la aplicación</string>
 </resources>

@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.hilt.gradle)
     alias(libs.plugins.ksp)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -74,14 +75,21 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.analytics)
-    implementation(libs.firebase.ui.auth)
+
     implementation(libs.hilt.android)
+
     implementation(libs.androidx.material3.adaptive.navigation.suite.android)
+    implementation(libs.androidx.datastore.core.android)
+    testImplementation(libs.junit.jupiter)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.navigation.compose)
+
+    //UI
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.firebase.ui.auth)
+
     implementation(libs.androidx.material3)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.appcompat)
@@ -90,9 +98,11 @@ dependencies {
     implementation(libs.play.services.auth)
     implementation(libs.androidx.credentials)
 
-    implementation(libs.libphonenumber)
+    implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.junit)
+    testImplementation(libs.jetbrains.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

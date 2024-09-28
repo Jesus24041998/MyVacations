@@ -28,17 +28,27 @@
     <string name="navsearch">Search</string>
     <string name="navaccount">Account</string>
 
+    <!-- MyTravelScreen -->
+    <string name="notravels">No travels yet, add your first travel </string>
+    <string name="travelname">Travels</string>
+    <string name="travelstart">Start date</string>
+    <string name="travelend">End date</string>
+    <string name="travelactivities">Activities</string>
+    <string name="travelextras">Extras</string>
+    <string name="totalspended">Total spended</string>
+
     <!-- AccountScreen -->
     <string name="accountprofile">Profile</string>
     <string name="accountusername">Username</string>
     <string name="accountpolitices">Privacy policy</string>
     <string name="accounttitleinfo">Information</string>
-    <string name="accountdescriptioninfo">Use a guest account means that your travels will not be saved in the cloud, only in your device.</string>
+    <string name="accountdescriptioninfo">Use a guest account means that your travels will not be saved in the cloud, only in your device.They will be lost if you delete or uninstall the application unless you log in.</string>
     <string name="accountlogout">Logout</string>
     <string name="accountnoconnect">No account?, Login now.</string>
     <string name="accountassitance">Assistance</string>
     <string name="accountcontact">Contact</string>
     <string name="accountlegal">Legal</string>
     <string name="accountguest">Guest</string>
+    <string name="accountcoin">Coin: </string>
     <string name="app_version">App version</string>
 </resources>
