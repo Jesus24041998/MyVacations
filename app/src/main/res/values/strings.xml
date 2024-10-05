@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">MyVacations</string>
+    <string name="no_internet">No internet connection</string>
 
     <!-- LoginScreen -->
     <string name="lshead">Login or signing</string>
@@ -22,6 +23,7 @@
     <string name="lanonymous">Anonymous login success</string>
     <string name="lwcredentials">Wrong credentials</string>
     <string name="lablock">Access to this account has been temporarily disabled due to many failed login attempts. Try again later.</string>
+    <string name="add">Add</string>
 
     <!-- MainScreen -->
     <string name="navtravel">Your travels</string>
@@ -29,13 +31,15 @@
     <string name="navaccount">Account</string>
 
     <!-- MyTravelScreen -->
-    <string name="notravels">No travels yet, add your first travel </string>
+    <string name="notravels">Add your first travel</string>
     <string name="travelname">Travels</string>
     <string name="travelstart">Start date</string>
     <string name="travelend">End date</string>
     <string name="travelactivities">Activities</string>
     <string name="travelextras">Extras</string>
     <string name="totalspended">Total spended</string>
+    <string name="titleBackup">Backup travels</string>
+    <string name="subtitleBackup">Do you want to backup your travels?,This will save your local travels in the cloud.</string>
 
     <!-- AccountScreen -->
     <string name="accountprofile">Profile</string>
@@ -51,4 +55,39 @@
     <string name="accountguest">Guest</string>
     <string name="accountcoin">Coin: </string>
     <string name="app_version">App version</string>
+
+    <!-- AddTravelScreen -->
+    <string name="addtraveltitle">Add a trip</string>
+    <string name="edittraveltitle">Edit the trip</string>
+    <string name="errormessagelns">Only letters, numbers and spaces are allowed</string>
+    <string name="errormessage20c">The text cannot be longer than 20 characters</string><string name="errormessage120c">The text cannot be longer than 120 characters</string>
+    <string name="errormessage200c">The text cannot be longer than 200 characters</string>
+    <string name="nametravel">Trip name</string>
+    <string name="traveldescription">Trip description</string>
+    <string name="travelstartdate">Start date</string>
+    <string name="travelenddate">End date</string>
+    <string name="errorfipff">The start date cannot be after the end date</string><string name="errorfiapffa">The start year cannot be greater than the end year</string>
+    <string name="travelactivity">Activities</string>
+    <string name="travelpriceactivities">Total price of activities:</string>
+    <string name="travelextra">Extras</string>
+    <string name="travelpriceextras">Total price of extras:</string>
+    <string name="travelprice">Trip price:</string>
+    <string name="errordigit8">The total cannot be greater than 8 digits</string>
+    <string name="travelactiviextraprice">Trip + Activities + Extras: </string>
+    <string name="addactivity">Create activity</string>
+    <string name="editactivity">Modify activity</string>
+    <string name="somethingempty">Fill in all fields</string>
+    <string name="correct">Correct the errors</string>
+    <string name="nameactivity">Activity name</string>
+    <string name="descriptionactivity">Activity description</string>
+    <string name="errorfiamffv">The activity date cannot be earlier than the trip start date</string>
+    <string name="errorfiagffv">The activity date cannotbe later than the trip end date</string>
+    <string name="erroraamaiv">The activity year cannot be less than the trip start year</string>
+    <string name="erroraamafv">The activity year cannot be greater than the trip end year</string>
+    <string name="activityprice">Activity price:</string>
+    <string name="addextra">Create an extra</string>
+    <string name="editextra">Modify extra</string>
+    <string name="descriptionextra">Extra description</string>
+    <string name="priceextra">Extra price:</string>
+
 </resources>

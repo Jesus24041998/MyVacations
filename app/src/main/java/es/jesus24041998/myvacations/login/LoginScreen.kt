@@ -61,6 +61,7 @@ import es.jesus24041998.myvacations.base.BaseScreen
 import es.jesus24041998.myvacations.ui.theme.MyVacationsTheme
 import es.jesus24041998.myvacations.utils.MyDialog
 import es.jesus24041998.myvacations.utils.SnackBarState
+import es.jesus24041998.myvacations.utils.SnackBarView
 import es.jesus24041998.myvacations.utils.getMessageForState
 import kotlinx.coroutines.launch
 
@@ -106,18 +107,6 @@ private fun SnackBarPreview() {
 }
 
 @Composable
-fun SnackBarView(snackbarHostState: SnackbarHostState) {
-    SnackbarHost(
-        hostState = snackbarHostState,
-        snackbar = { data ->
-            Snackbar(
-                snackbarData = data
-            )
-        }
-    )
-}
-
-@Composable
 fun LoginScreen(
     onNavigateToHome: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
@@ -132,7 +121,7 @@ fun LoginScreen(
     val resentButton = stringResource(id = R.string.lresent)
 
     LaunchedEffect(Unit) {
-        viewModel.init()
+        viewModel.onOfflineLogin()
     }
 
     LaunchedEffect(toastState) {
@@ -175,6 +164,7 @@ fun LoginScreenView(
     Scaffold(
         topBar = {
             IconButton(onClick = {
+                viewModel?.onOfflineLogin()
                 onNavigateToHome()
             }) {
                 Icon(
@@ -220,7 +210,9 @@ fun LoginScreenView(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Button(
-                    onClick = { onNavigateToHome() },
+                    onClick = {
+                        viewModel?.onOfflineLogin()
+                        onNavigateToHome() },
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Row(

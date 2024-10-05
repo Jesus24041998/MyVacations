@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import es.jesus24041998.myvacations.R
 import es.jesus24041998.myvacations.base.BaseScreen
+import es.jesus24041998.myvacations.ui.datastore.Travel
 import es.jesus24041998.myvacations.ui.mytravels.MyTravel
 import es.jesus24041998.myvacations.ui.profile.ProfileScreen
 import es.jesus24041998.myvacations.ui.search.SearchScreen
@@ -49,7 +50,7 @@ enum class HomeDestination(
 @Preview(showBackground = true)
 private fun HomeScreenPreview() {
     MyVacationsTheme {
-        HomeScreenView({},{},false)
+        HomeScreenView({},{},{},false)
     }
 }
 
@@ -57,6 +58,7 @@ private fun HomeScreenPreview() {
 fun HomeScreen(
     onNavigateToLogin: () -> Unit,
     onNavigateToPolitics: () -> Unit,
+    onNavigateToAddTravel: (travel: Travel) -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
     fromSplash: Boolean
 ) {
@@ -68,13 +70,14 @@ fun HomeScreen(
             onNavigateToLogin()
         }
     }
-    HomeScreenView(onNavigateToLogin, onNavigateToPolitics, loading)
+    HomeScreenView(onNavigateToLogin, onNavigateToPolitics, onNavigateToAddTravel,loading)
 }
 
 @Composable
 private fun HomeScreenView(
     onNavigateToLogin: () -> Unit,
     onNavigateToPolitics: () -> Unit,
+    onNavigateToAddTravel: (travel: Travel) -> Unit,
     loading: Boolean
 ) {
     BaseScreen(content = {
@@ -98,7 +101,7 @@ private fun HomeScreenView(
         ) {
             when(currentDestination.name)
             {
-                "MYTRAVELS" -> MyTravel()
+                "MYTRAVELS" -> MyTravel(onNavigateToAddTravel)
                 "SEARCH" -> SearchScreen()
                 "PROFILE" -> ProfileScreen(onNavigateToLogin, onNavigateToPolitics)
             }

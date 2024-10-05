@@ -231,7 +231,7 @@ private fun ProfileView(
             )
             if (showDialog) {
                 MyAlertDialog(
-                    onLogoutConfirm = {
+                    onConfirm = {
                         showDialog = false
                         viewModel?.logout()
                         onNavigateToLogin()

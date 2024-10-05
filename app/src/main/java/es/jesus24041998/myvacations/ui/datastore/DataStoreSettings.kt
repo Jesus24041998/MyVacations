@@ -23,7 +23,7 @@ data class Coin(
 data class Activity(
     val name: String,
     val description: String,
-    val initDate: Long,
+    val initDate: String,
     val priceOrNot: Double? = null,
 )
 
@@ -39,8 +39,8 @@ data class Travel(
     val name: String,
     val description: String,
     val activityList: List<Activity>,
-    val initDate: Long,
-    val endDate: Long,
+    val initDate: String,
+    val endDate: String,
     val extraList: List<Extra>,
     val total: Double,
     val coin: Coin

@@ -31,7 +31,7 @@ class LoginViewModel @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
 ) : BaseViewModel() {
 
-    private val _authState = MutableLiveData<FirebaseUser?>(FirebaseAuth.getInstance().currentUser)
+    private val _authState = MutableLiveData<FirebaseUser?>(firebaseAuth.currentUser)
     val authState: LiveData<FirebaseUser?> get() = _authState
 
     private val _toastState = MutableLiveData<SnackBarState>()
@@ -39,11 +39,6 @@ class LoginViewModel @Inject constructor(
 
     private val _throwHome = MutableLiveData(false)
     val throwHome: LiveData<Boolean> get() = _throwHome
-    fun init() {
-        if (firebaseAuth.currentUser == null) {
-            onOfflineLogin()
-        }
-    }
 
     private fun login(exception: Exception, email: String, password: String) {
         viewModelScope.launch {
@@ -123,11 +118,16 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun onOfflineLogin() {
+    fun onOfflineLogin() {
         viewModelScope.launch {
-            setLoadingState(true)
-            firebaseAuth.signInAnonymously().addOnCompleteListener {
-                setLoadingState(false)
+            firebaseAuth.currentUser?.reload()?.addOnCompleteListener {
+                if (!it.isSuccessful) firebaseAuth.signOut()
+            }
+            if(firebaseAuth.currentUser == null) {
+                setLoadingState(true)
+                firebaseAuth.signInAnonymously().addOnCompleteListener {
+                    setLoadingState(false)
+                }
             }
         }
     }

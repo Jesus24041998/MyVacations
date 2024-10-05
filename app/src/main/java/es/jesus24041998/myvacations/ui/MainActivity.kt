@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,11 +17,18 @@ import androidx.navigation.navArgument
 import androidx.navigation.navOptions
 import dagger.hilt.android.AndroidEntryPoint
 import es.jesus24041998.myvacations.login.LoginScreen
+import es.jesus24041998.myvacations.ui.datastore.Coin
+import es.jesus24041998.myvacations.ui.datastore.Travel
 import es.jesus24041998.myvacations.ui.home.HomeScreen
+import es.jesus24041998.myvacations.ui.mytravels.AddTravelView
 import es.jesus24041998.myvacations.ui.politics.Politics
 import es.jesus24041998.myvacations.ui.splash.SplashScreen
 import es.jesus24041998.myvacations.ui.theme.MyVacationsTheme
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import java.net.URLEncoder
 
+@ExperimentalMaterial3Api
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -38,6 +46,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@ExperimentalMaterial3Api
 @Composable
 private fun OpenNavigation() {
     val navController = rememberNavController()
@@ -64,10 +73,22 @@ private fun OpenNavigation() {
                 },
                 onNavigateToPolitics = {
                     navigateToPolitics("HomeScreen", navController)
+                },
+                onNavigateToAddTravel = {
+                    travel ->
+                    navigateToAddTravel("HomeScreen", navController, travel)
                 })
         }
         composable("PoliticScreen") {
            Politics(navController = navController)
+        }
+        composable(
+            "AddTravelScreen" + "/{travelJson}",
+            arguments = listOf(navArgument("travelJson") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val travelJson = backStackEntry.arguments?.getString("travelJson")
+            val travel = travelJson?.let { Json.decodeFromString<Travel>(it) } ?: Travel("", "", "", emptyList(), "", "", emptyList(), 0.0, Coin())
+            AddTravelView(travel,navController = navController)
         }
     }
 }
@@ -104,6 +125,22 @@ private fun navigateToHome(window: String, navController: NavHostController) {
 private fun navigateToPolitics(window: String, navController: NavHostController) {
     navController.navigate(
         route = "PoliticScreen",
+        navOptions {
+            anim {
+                enter = android.R.animator.fade_in
+                exit = android.R.animator.fade_out
+                popEnter = android.R.animator.fade_in
+                popExit = android.R.animator.fade_out
+            }
+            popUpTo(window) { inclusive = true }
+        })
+}
+
+private fun navigateToAddTravel(window: String, navController: NavHostController, travel: Travel) {
+    val json = Json.encodeToString(travel)
+    val encodedJson = URLEncoder.encode(json, "UTF-8")
+    navController.navigate(
+        route = "AddTravelScreen/$encodedJson",
         navOptions {
             anim {
                 enter = android.R.animator.fade_in

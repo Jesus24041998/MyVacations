@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Mis Vacaciones</string>
+    <string name="no_internet">No hay conexión a internet</string>
+
     <!-- LoginScreen -->
     <string name="lshead">Inicia sesión o regístrate</string>
     <string name="lcontinue">Continuar</string>
@@ -21,20 +23,22 @@
     <string name="lanonymous">Inicio de sesión anónimo</string>
     <string name="lwcredentials">Credenciales erroneas</string>
     <string name="lablock">El acceso a la cuenta a sido temporalmente deshabilitado debido a muchos intentos de inicio de sesión fallidos. Inténtalo más tarde.</string>
-
+    <string name="add">Añadir</string>
     <!-- MainScreen -->
     <string name="navtravel">Tus viajes</string>
     <string name="navsearch">Busqueda</string>
     <string name="navaccount">Cuenta</string>
 
     <!-- MyTravelScreen -->
-    <string name="notravels">No hay viajes aún, agrega tu primer viaje </string>
+    <string name="notravels">Agrega tu primer viaje</string>
     <string name="travelname">Viajes</string>
     <string name="travelstart">Inicio</string>
     <string name="travelend">Final</string>
     <string name="travelactivities">Actividades</string>
     <string name="travelextras">Extras</string>
     <string name="totalspended">Total gastado</string>
+    <string name="titleBackup">Respaldar tus viajes</string>
+    <string name="subtitleBackup">¿Quieres respaldar tus viajes?, Esto hara que todos tus viajes en local se guarden en la nube.</string>
 
     <!-- AccountScreen -->
     <string name="accountprofile">Perfil</string>
@@ -50,4 +54,41 @@
     <string name="accountguest">Invitado</string>
     <string name="accountcoin">Moneda: </string>
     <string name="app_version">Versión de la aplicación</string>
+
+    <!-- AddTravelScreen -->
+    <string name="addtraveltitle">Agrega un viaje</string>
+    <string name="edittraveltitle">Edita el viaje</string>
+    <string name="errormessagelns">Solo se permiten letras, números y espacios</string>
+    <string name="errormessage20c">El texto no puede ser mayor de 20 caracteres</string>
+    <string name="errormessage120c">El texto no puede ser mayor de 120 caracteres</string>
+    <string name="errormessage200c">El texto no puede ser mayor de 200 caracteres</string>
+    <string name="nametravel">Nombre del viaje</string>
+    <string name="traveldescription">Descripción del viaje</string>
+    <string name="travelstartdate">Fecha de inicio</string>
+    <string name="travelenddate">Fecha de finalización</string>
+    <string name="errorfipff">La fecha de inicio no puede ser posterior a la fecha de finalización</string>
+    <string name="errorfiapffa">El año de inicio no puede ser mayor que el año de finalización</string>
+    <string name="travelactivity">Actividades</string>
+    <string name="travelpriceactivities">Total precio actividades:</string>
+    <string name="travelextra">Extras</string>
+    <string name="travelpriceextras">Total precio extras:</string>
+    <string name="travelprice">Precio del viaje:</string>
+    <string name="errordigit8">El total no puede ser mayor de 8 digitos</string>
+    <string name="travelactiviextraprice">Viaje + Actividades + Extras: </string>
+    <string name="addactivity">Crear actividad</string>
+    <string name="editactivity">Modificar actividad</string>
+    <string name="somethingempty">Rellena todos los campos</string>
+    <string name="correct">Corrige los errores</string>
+    <string name="nameactivity">Nombre de la actividad</string>
+    <string name="descriptionactivity">Descripción de la actividad</string>
+    <string name="errorfiamffv">La fecha de la actividad no puede ser más pequeña que la de inicio del viaje</string>
+    <string name="errorfiagffv">La fecha de la actividad no puede ser más grande que la fecha final del viaje</string>
+    <string name="erroraamaiv">El año de la actividad no puede ser menor que el año de inicio del viaje</string>
+    <string name="erroraamafv">El año de la actividad no puede ser mayor que el año de finalización del viaje</string>
+    <string name="activityprice">Precio de la actividad:</string>
+    <string name="addextra">Crear un extra</string>
+    <string name="editextra">Modificar extra</string>
+    <string name="descriptionextra">Descripción del extra</string>
+    <string name="priceextra">Precio del extra:</string>
+
 </resources>

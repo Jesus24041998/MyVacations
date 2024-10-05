@@ -1,6 +1,8 @@
 import androidx.datastore.core.DataStore
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import es.jesus24041998.myvacations.ui.datastore.Activity
+import es.jesus24041998.myvacations.ui.datastore.Coin
 import es.jesus24041998.myvacations.ui.datastore.Extra
 import es.jesus24041998.myvacations.ui.datastore.SettingsApp
 import es.jesus24041998.myvacations.ui.datastore.Travel
@@ -27,6 +29,7 @@ class HomeViewModelTest {
     private lateinit var viewModel: HomeViewModel
     private val dataStore: DataStore<SettingsApp> = mockk(relaxed = true)
     private val firebaseAuth: FirebaseAuth = mockk(relaxed = true)
+    private val firebaseStore: FirebaseFirestore = mockk(relaxed = true)
     private val networkUtilities: Boolean = true
     private val testDispatcher = StandardTestDispatcher()
     // Mock the DataStore flow to simulate stored data
@@ -40,7 +43,8 @@ class HomeViewModelTest {
         initDate = 1000L,
         endDate = 2000L,
         extraList = emptyList(),
-        total = 0.0
+        total = 0.0,
+        coin = Coin("EUR")
     )
     private val defaultTravel = arrayListOf(newTravel)
 
@@ -48,7 +52,7 @@ class HomeViewModelTest {
     fun setup() {
         Dispatchers.setMain(testDispatcher)
         every { dataStore.data } returns settingsTravelFlow
-        viewModel = HomeViewModel(firebaseAuth, dataStore, networkUtilities)
+        viewModel = HomeViewModel(firebaseAuth, firebaseStore, dataStore, networkUtilities)
         val activity = listOf(
             Activity(
                 name = "Visita cazorla",
@@ -80,7 +84,8 @@ class HomeViewModelTest {
             initDate = 1000L,
             endDate = 2000L,
             extraList = extra,
-            total = 0.0
+            total = 0.0,
+            coin = Coin("EUR")
         )
         defaultTravel.add(newTravel)
     }
@@ -96,7 +101,7 @@ class HomeViewModelTest {
     @Test
     fun `agregarViaje should add a new viaje to the DataStore`() = runTest {
         // Llamar a la función de agregar viaje en el ViewModel
-        viewModel.saveTravel(newTravel)
+        viewModel.saveTravelMain(newTravel)
 
         // Verificar que el viaje ha sido agregado
         val viajes = settingsTravelFlow.first().travels

@@ -4,8 +4,8 @@ import java.util.Currency
 import java.util.Locale
 
 val monedasMasFamosas = listOf(
-    "USD",
     "EUR",
+    "USD",
     "JPY",
     "GBP",
     "AUD",
