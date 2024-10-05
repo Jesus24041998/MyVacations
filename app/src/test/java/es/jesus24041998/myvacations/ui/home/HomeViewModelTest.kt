@@ -7,7 +7,9 @@ import es.jesus24041998.myvacations.ui.datastore.Extra
 import es.jesus24041998.myvacations.ui.datastore.SettingsApp
 import es.jesus24041998.myvacations.ui.datastore.Travel
 import es.jesus24041998.myvacations.ui.home.HomeViewModel
-import io.mockk.*
+import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -32,6 +34,7 @@ class HomeViewModelTest {
     private val firebaseStore: FirebaseFirestore = mockk(relaxed = true)
     private val networkUtilities: Boolean = true
     private val testDispatcher = StandardTestDispatcher()
+
     // Mock the DataStore flow to simulate stored data
     private val settingsTravelFlow = MutableStateFlow(SettingsApp())
 

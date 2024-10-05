@@ -1,19 +1,11 @@
 package es.jesus24041998.myvacations.login
 
-import android.app.Activity
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.FirebaseException
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.PhoneAuthCredential
-import com.google.firebase.auth.PhoneAuthOptions
-import com.google.firebase.auth.PhoneAuthProvider
-import com.google.firebase.auth.PhoneAuthProvider.getCredential
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,8 +13,6 @@ import es.jesus24041998.myvacations.base.BaseViewModel
 import es.jesus24041998.myvacations.utils.SnackBarState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.lang.Exception
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -123,7 +113,7 @@ class LoginViewModel @Inject constructor(
             firebaseAuth.currentUser?.reload()?.addOnCompleteListener {
                 if (!it.isSuccessful) firebaseAuth.signOut()
             }
-            if(firebaseAuth.currentUser == null) {
+            if (firebaseAuth.currentUser == null) {
                 setLoadingState(true)
                 firebaseAuth.signInAnonymously().addOnCompleteListener {
                     setLoadingState(false)

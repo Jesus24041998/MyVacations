@@ -16,4 +16,5 @@ val monedasMasFamosas = listOf(
     "BRL"
 )
 
-fun getSymbol(currencyCode: String): String = Currency.getInstance(currencyCode).getSymbol(Locale.US)
+fun getSymbol(currencyCode: String): String =
+    Currency.getInstance(currencyCode).getSymbol(Locale.US)

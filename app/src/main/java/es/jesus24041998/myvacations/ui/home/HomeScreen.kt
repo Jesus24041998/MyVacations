@@ -50,7 +50,7 @@ enum class HomeDestination(
 @Preview(showBackground = true)
 private fun HomeScreenPreview() {
     MyVacationsTheme {
-        HomeScreenView({},{},{},false)
+        HomeScreenView({}, {}, {}, false)
     }
 }
 
@@ -70,7 +70,7 @@ fun HomeScreen(
             onNavigateToLogin()
         }
     }
-    HomeScreenView(onNavigateToLogin, onNavigateToPolitics, onNavigateToAddTravel,loading)
+    HomeScreenView(onNavigateToLogin, onNavigateToPolitics, onNavigateToAddTravel, loading)
 }
 
 @Composable
@@ -99,8 +99,7 @@ private fun HomeScreenView(
                 }
             }
         ) {
-            when(currentDestination.name)
-            {
+            when (currentDestination.name) {
                 "MYTRAVELS" -> MyTravel(onNavigateToAddTravel)
                 "SEARCH" -> SearchScreen()
                 "PROFILE" -> ProfileScreen(onNavigateToLogin, onNavigateToPolitics)

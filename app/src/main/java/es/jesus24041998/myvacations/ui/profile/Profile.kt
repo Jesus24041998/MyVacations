@@ -8,26 +8,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -43,24 +35,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.navOptions
+import es.jesus24041998.myvacations.BuildConfig
+import es.jesus24041998.myvacations.R
 import es.jesus24041998.myvacations.base.BaseScreen
 import es.jesus24041998.myvacations.ui.home.HomeViewModel
 import es.jesus24041998.myvacations.ui.theme.MyVacationsTheme
-import es.jesus24041998.myvacations.BuildConfig
-import es.jesus24041998.myvacations.R
-import es.jesus24041998.myvacations.ui.datastore.Coin
 import es.jesus24041998.myvacations.utils.CardInfo
 import es.jesus24041998.myvacations.utils.MyAlertDialog
-import es.jesus24041998.myvacations.utils.monedasMasFamosas
-import java.util.Currency
-import java.util.Locale
 
 @Composable
 @Preview(showBackground = true)
 private fun ProfilePreview() {
     MyVacationsTheme {
-        ProfileView(onNavigateToLogin = {}, onNavigateToPolitics =  {})
+        ProfileView(onNavigateToLogin = {}, onNavigateToPolitics = {})
     }
 }
 
@@ -85,7 +72,9 @@ private fun ProfileView(
     val context = LocalContext.current
     var showDialog by remember { mutableStateOf(false) }
     val user = viewModel?.getCurrentUser()
-    val userName = if(user?.isAnonymous == true) stringResource(id = R.string.accountguest) else user?.displayName ?: stringResource(id = R.string.accountguest)
+    val userName =
+        if (user?.isAnonymous == true) stringResource(id = R.string.accountguest) else user?.displayName
+            ?: stringResource(id = R.string.accountguest)
     var showInfo by remember { mutableStateOf(false) }
     val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
         data = Uri.parse("mailto:") // Solo email
@@ -93,9 +82,11 @@ private fun ProfileView(
     }
 
     BaseScreen(content = {
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(32.dp)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(32.dp)
+        ) {
             Text(
                 text = stringResource(id = R.string.accountprofile),
                 style = MaterialTheme.typography.headlineLarge.copy(
@@ -104,16 +95,22 @@ private fun ProfileView(
                 )
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Row(modifier = Modifier.padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier.padding(vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
-                    text = stringResource(id = R.string.accountusername)+ ": ",
+                    text = stringResource(id = R.string.accountusername) + ": ",
                     style = MaterialTheme.typography.bodyLarge.copy(fontSize = 14.sp)
                 )
                 Text(
                     text = userName,
-                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 16.sp,fontWeight = FontWeight.Bold)
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                 )
-                if(user?.isAnonymous == true) {
+                if (user?.isAnonymous == true) {
                     IconButton(onClick = { showInfo = true }) {
                         Icon(
                             imageVector = Icons.Filled.Info,
@@ -123,7 +120,7 @@ private fun ProfileView(
                 }
             }
 
-            if(showInfo) {
+            if (showInfo) {
                 ModalBottomSheet(
                     onDismissRequest = { showInfo = false }
                 ) {
@@ -139,10 +136,13 @@ private fun ProfileView(
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            if(user?.isAnonymous == true) {
+            if (user?.isAnonymous == true) {
                 Text(
                     text = stringResource(id = R.string.accountnoconnect),
-                    style = MaterialTheme.typography.bodySmall.copy(fontSize = 13.sp,textDecoration = TextDecoration.Underline),
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        fontSize = 13.sp,
+                        textDecoration = TextDecoration.Underline
+                    ),
                     modifier = Modifier.clickable {
                         onNavigateToLogin()
                     }
@@ -153,8 +153,7 @@ private fun ProfileView(
                     modifier = Modifier.padding(vertical = 8.dp)
                 )
                 Spacer(modifier = Modifier.height(25.dp))
-            }
-            else{
+            } else {
                 Spacer(modifier = Modifier.height(25.dp))
                 HorizontalDivider(
                     thickness = 2.dp,
@@ -218,7 +217,7 @@ private fun ProfileView(
             )
             Spacer(modifier = Modifier.height(25.dp))
 
-            if(user?.isAnonymous == false)  Text(
+            if (user?.isAnonymous == false) Text(
                 text = stringResource(id = R.string.accountlogout),
                 style = MaterialTheme.typography.bodyLarge.copy(
                     textDecoration = TextDecoration.Underline

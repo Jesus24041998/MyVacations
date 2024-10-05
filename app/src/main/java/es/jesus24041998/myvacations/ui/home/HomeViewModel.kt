@@ -60,12 +60,12 @@ class HomeViewModel @Inject constructor(
                 setLoadingState(true)
                 val user = firebaseAuth.currentUser?.isAnonymous?.not()
                 if (user == true) {
-                        firebaseAuth.currentUser?.uid?.let {
-                            firebaseFirestore.collection("users").document(it)
-                                .collection("travels")
-                                .document(travel.id)
-                                .get()
-                        }
+                    firebaseAuth.currentUser?.uid?.let {
+                        firebaseFirestore.collection("users").document(it)
+                            .collection("travels")
+                            .document(travel.id)
+                            .get()
+                    }
                 }
                 setLoadingState(false)
             }

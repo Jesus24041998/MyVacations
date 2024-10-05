@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -17,12 +15,13 @@ import es.jesus24041998.myvacations.ui.theme.MyVacationsTheme
 
 @Composable
 @Preview(showBackground = true)
-private fun BaseScreenPreview()
-{
+private fun BaseScreenPreview() {
     MyVacationsTheme {
-        LoadingScreenView(content = { LoginScreenView(
-           onNavigateToHome = {},
-       ) }, isLoading = true)
+        LoadingScreenView(content = {
+            LoginScreenView(
+                onNavigateToHome = {},
+            )
+        }, isLoading = true)
     }
 }
 
@@ -41,11 +40,11 @@ private fun LoadingScreenView(content: @Composable () -> Unit, isLoading: Boolea
             .fillMaxSize()
             .alpha(if (isLoading) 0.5f else 1f)
     ) {
-        if(!isLoading) content()
+        if (!isLoading) content()
     }
     Box(
         contentAlignment = Alignment.Center
-    ){
+    ) {
         if (isLoading) {
             CircularProgressIndicator(
                 modifier = Modifier.width(64.dp)

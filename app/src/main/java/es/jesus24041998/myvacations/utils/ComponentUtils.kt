@@ -2,8 +2,6 @@
 
 package es.jesus24041998.myvacations.utils
 
-import android.content.Context
-import android.content.res.Resources.Theme
 import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -55,30 +53,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.google.firebase.auth.FirebaseUser
 import es.jesus24041998.myvacations.R
-import es.jesus24041998.myvacations.ui.datastore.Coin
 import es.jesus24041998.myvacations.ui.datastore.Travel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
-import java.util.Calendar
-import java.util.Currency
-import java.util.Locale
 
 @Composable
 fun MyDialog(
@@ -183,7 +171,9 @@ fun MyDatePickerDialog(
             confirmButton = {
                 TextButton(
                     onClick = {
-                        val date = datePickerState.selectedDateMillis?.let { Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault()).toLocalDate() }
+                        val date = datePickerState.selectedDateMillis?.let {
+                            Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault()).toLocalDate()
+                        }
                         date?.let { onDateSelected(it) }
                         onDismissRequest()
                     }

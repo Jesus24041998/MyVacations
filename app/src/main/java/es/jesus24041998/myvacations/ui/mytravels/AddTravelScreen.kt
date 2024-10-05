@@ -105,7 +105,9 @@ fun AddTravelView(
                 Spacer(modifier = Modifier.width(32.dp))
 
                 Text(
-                    text = if(travel.id.isEmpty()) stringResource(id = R.string.addtraveltitle) else stringResource(id = R.string.edittraveltitle),
+                    text = if (travel.id.isEmpty()) stringResource(id = R.string.addtraveltitle) else stringResource(
+                        id = R.string.edittraveltitle
+                    ),
                     style = MaterialTheme.typography.headlineMedium
                 )
             }
@@ -405,7 +407,10 @@ private fun TravelFormulary(
                 shape = RoundedCornerShape(16.dp)
             ) {
                 Row(modifier = Modifier.padding(16.dp)) {
-                    Text(style = MaterialTheme.typography.titleMedium, text = stringResource(id = R.string.travelstartdate))
+                    Text(
+                        style = MaterialTheme.typography.titleMedium,
+                        text = stringResource(id = R.string.travelstartdate)
+                    )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = startDate.value.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
@@ -423,7 +428,10 @@ private fun TravelFormulary(
                 shape = RoundedCornerShape(16.dp)
             ) {
                 Row(modifier = Modifier.padding(16.dp)) {
-                    Text(style = MaterialTheme.typography.titleMedium, text = stringResource(id = R.string.travelenddate))
+                    Text(
+                        style = MaterialTheme.typography.titleMedium,
+                        text = stringResource(id = R.string.travelenddate)
+                    )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = endDate.value.format(datePattern),
@@ -473,8 +481,14 @@ private fun TravelFormulary(
             Spacer(modifier = Modifier.height(8.dp))
         }
         item {
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
-                Text(style = MaterialTheme.typography.titleLarge, text = stringResource(id = R.string.travelactivities))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    style = MaterialTheme.typography.titleLarge,
+                    text = stringResource(id = R.string.travelactivities)
+                )
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(modifier = Modifier.clip(CircleShape), onClick = {
                     errorMessageNameActivity.value = ""
@@ -487,8 +501,12 @@ private fun TravelFormulary(
                     activityPrice.value = ""
 
                     modeActivity.value = listOf()
-                    activitiesDialog.value = true }) {
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+                    activitiesDialog.value = true
+                }) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
                         Text(text = stringResource(id = R.string.add))
                         Spacer(modifier = Modifier.width(5.dp))
                         Icon(imageVector = Icons.Default.Add, contentDescription = "addActivity")
@@ -537,7 +555,11 @@ private fun TravelFormulary(
         }
         item {
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = (stringResource(id = R.string.travelpriceactivities)) + priceTotalActivities.doubleValue + getSymbol(currency.value.currencyCode))
+            Text(
+                text = (stringResource(id = R.string.travelpriceactivities)) + priceTotalActivities.doubleValue + getSymbol(
+                    currency.value.currencyCode
+                )
+            )
         }
         item {
             Spacer(modifier = Modifier.height(8.dp))
@@ -545,8 +567,14 @@ private fun TravelFormulary(
             Spacer(modifier = Modifier.height(8.dp))
         }
         item {
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
-                Text(style = MaterialTheme.typography.titleLarge, text = stringResource(id = R.string.travelextra))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    style = MaterialTheme.typography.titleLarge,
+                    text = stringResource(id = R.string.travelextra)
+                )
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(modifier = Modifier.clip(CircleShape), onClick = {
                     errorMessageDescriptionExtra.value = ""
@@ -556,7 +584,10 @@ private fun TravelFormulary(
                     modeExtras.value = listOf()
                     extrasDialog.value = true
                 }) {
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
                         Text(text = stringResource(id = R.string.add))
                         Spacer(modifier = Modifier.width(5.dp))
                         Icon(imageVector = Icons.Default.Add, contentDescription = "addExtras")
@@ -599,7 +630,11 @@ private fun TravelFormulary(
         }
         item {
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = (stringResource(id = R.string.travelpriceextras)) + priceTotalExtras.doubleValue + getSymbol(currency.value.currencyCode))
+            Text(
+                text = (stringResource(id = R.string.travelpriceextras)) + priceTotalExtras.doubleValue + getSymbol(
+                    currency.value.currencyCode
+                )
+            )
         }
         item {
             Spacer(modifier = Modifier.height(8.dp))
@@ -651,16 +686,16 @@ private fun TravelFormulary(
             priceTravelTotal.doubleValue =
                 price.doubleValue + priceTotalActivities.doubleValue + priceTotalExtras.doubleValue
             Text(
-                text = stringResource(id = R.string.travelactiviextraprice) + priceTravelTotal.doubleValue + getSymbol(currency.value.currencyCode)
+                text = stringResource(id = R.string.travelactiviextraprice) + priceTravelTotal.doubleValue + getSymbol(
+                    currency.value.currencyCode
+                )
             )
         }
         item {
-            if(tripName.value.isEmpty() || tripDescription.value.isEmpty() )
-            {
+            if (tripName.value.isEmpty() || tripDescription.value.isEmpty()) {
                 error.value = true
                 errorEmpty.value = stringResource(id = R.string.somethingempty)
-            }
-            else errorEmpty.value = ""
+            } else errorEmpty.value = ""
 
             if (errorEmpty.value != "") {
                 Text(
@@ -684,7 +719,11 @@ private fun TravelFormulary(
             Spacer(modifier = Modifier.height(8.dp))
             HorizontalDivider()
             Spacer(modifier = Modifier.height(8.dp))
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
                 Button(onClick = { navController?.popBackStack() }) {
                     Text(text = stringResource(id = R.string.lcancel))
                 }
@@ -697,7 +736,7 @@ private fun TravelFormulary(
                                 if (it.id.isNotEmpty()) viewModel.deleteTravel(it.id)
                                 saveTravelMain(
                                     Travel(
-                                        it.id.ifEmpty { viewModel.getCurrentUser()?.uid + "_" + tripName.value + travels.value.size + 1},
+                                        it.id.ifEmpty { viewModel.getCurrentUser()?.uid + "_" + tripName.value + travels.value.size + 1 },
                                         tripName.value,
                                         tripDescription.value,
                                         activities.value,
@@ -774,7 +813,7 @@ private fun ActivityFormulary(
                         !allowedPattern.matches(it) -> {
                             error.value = true
                             errorMessageNameActivity.value =
-                               error1
+                                error1
                         }
 
                         it.length > 20 -> {
@@ -944,12 +983,12 @@ private fun ActivityFormulary(
                 onDismissRequest = { showStartDateDialogActivity.value = false },
                 onDateSelected = { activityStartDate.value = it }
             )
-            if(activityName.value.isEmpty() || activityDescription.value.isEmpty() || activityStartDate.value.toString().isEmpty())
-            {
+            if (activityName.value.isEmpty() || activityDescription.value.isEmpty() || activityStartDate.value.toString()
+                    .isEmpty()
+            ) {
                 error.value = true
                 errorEmpty.value = error1
-            }
-            else errorEmpty.value = ""
+            } else errorEmpty.value = ""
 
             if (errorEmpty.value != "") {
                 Text(
@@ -973,13 +1012,17 @@ private fun ActivityFormulary(
             Spacer(modifier = Modifier.height(8.dp))
             HorizontalDivider()
             Spacer(modifier = Modifier.height(8.dp))
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
                 Button(onClick = { activitiesDialog.value = false }) {
                     Text(text = stringResource(id = R.string.lcancel))
                 }
                 Spacer(modifier = Modifier.width(16.dp))
                 Button(onClick = {
-                    if(!error.value) {
+                    if (!error.value) {
                         if (modeActivity.value.isEmpty()) {
                             activities.value = activities.value.plus(
                                 Activity(
@@ -1038,7 +1081,9 @@ fun ExtrasFormulary(
     ) {
         item {
             Text(
-                text = if (modeExtras.value.isEmpty()) stringResource(id = R.string.addextra) else stringResource(id = R.string.editextra),
+                text = if (modeExtras.value.isEmpty()) stringResource(id = R.string.addextra) else stringResource(
+                    id = R.string.editextra
+                ),
                 style = MaterialTheme.typography.titleLarge
             )
         }
@@ -1113,12 +1158,10 @@ fun ExtrasFormulary(
                 )
             }
             val error2 = stringResource(id = R.string.somethingempty)
-            if(extrasDescription.value.isEmpty())
-            {
+            if (extrasDescription.value.isEmpty()) {
                 error.value = true
                 errorEmpty.value = error2
-            }
-            else errorEmpty.value = ""
+            } else errorEmpty.value = ""
 
             if (errorEmpty.value != "") {
                 Text(
@@ -1143,13 +1186,17 @@ fun ExtrasFormulary(
             Spacer(modifier = Modifier.height(8.dp))
             HorizontalDivider()
             Spacer(modifier = Modifier.height(8.dp))
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
                 Button(onClick = { extrasDialog.value = false }) {
                     Text(text = stringResource(id = R.string.lcancel))
                 }
                 Spacer(modifier = Modifier.width(16.dp))
                 Button(onClick = {
-                    if(!error.value) {
+                    if (!error.value) {
                         if (modeExtras.value.isEmpty()) {
                             extras.value = extras.value.plus(
                                 Extra(

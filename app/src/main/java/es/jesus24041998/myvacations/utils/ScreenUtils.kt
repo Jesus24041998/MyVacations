@@ -3,7 +3,7 @@ package es.jesus24041998.myvacations.utils
 import android.content.res.Configuration
 
 
-fun ellipsizeTextScreen(string: String,configuration: Configuration): String {
+fun ellipsizeTextScreen(string: String, configuration: Configuration): String {
     val screenWidth = configuration.screenWidthDp
     val maxLength = when {
         screenWidth < 360 -> 10 // Para pantallas pequeñas

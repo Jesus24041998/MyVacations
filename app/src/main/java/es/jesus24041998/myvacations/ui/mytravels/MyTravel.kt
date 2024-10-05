@@ -1,6 +1,5 @@
 package es.jesus24041998.myvacations.ui.mytravels
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -30,7 +29,6 @@ import es.jesus24041998.myvacations.ui.theme.MyVacationsTheme
 import es.jesus24041998.myvacations.utils.MyListTravel
 import es.jesus24041998.myvacations.utils.NetworkUtilities
 import es.jesus24041998.myvacations.utils.SnackBarViewError
-import es.jesus24041998.myvacations.utils.dateTimeToMillis
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -48,7 +46,7 @@ fun MyTravel(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val loading by viewModel.isLoading.observeAsState(false)
-    MyTravelView(onNavigateToAddTravel,loading, viewModel)
+    MyTravelView(onNavigateToAddTravel, loading, viewModel)
 }
 
 @Composable
@@ -60,7 +58,8 @@ private fun MyTravelView(
     val travels by viewModel.travels.collectAsState(initial = emptyList())
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
-    val isInternetNotAvailable = snapshotFlow { !NetworkUtilities.isInternetAvailable(context) }.collectAsState(initial = false)
+    val isInternetNotAvailable =
+        snapshotFlow { !NetworkUtilities.isInternetAvailable(context) }.collectAsState(initial = false)
 
     LaunchedEffect(Unit) {
         viewModel.getTravelsLocal()
@@ -109,7 +108,7 @@ private fun MyTravelView(
                     .fillMaxSize()
                     .padding(innerPadding)
             ) {
-                if(isInternetNotAvailable.value) {
+                if (isInternetNotAvailable.value) {
                     val nointernet = stringResource(id = R.string.no_internet)
                     LaunchedEffect(key1 = snackbarHostState) {
                         snackbarHostState.showSnackbar(
@@ -124,12 +123,36 @@ private fun MyTravelView(
                     position = 0,
                     callback = { index ->
                         travels[index].let {
-                            onNavigateToAddTravel(Travel(it.id, it.name, it.description, it.activityList, it.initDate, it.endDate, it.extraList, it.total, it.coin))
+                            onNavigateToAddTravel(
+                                Travel(
+                                    it.id,
+                                    it.name,
+                                    it.description,
+                                    it.activityList,
+                                    it.initDate,
+                                    it.endDate,
+                                    it.extraList,
+                                    it.total,
+                                    it.coin
+                                )
+                            )
                         }
                     },
                     callbackBackUp = { if (viewModel.getCurrentUser()?.isAnonymous == false) viewModel.syncWithDataBase() },
                     callbackNew = {
-                        onNavigateToAddTravel(Travel("", "", "", listOf(), "", "", listOf(), 0.0, Coin("")))
+                        onNavigateToAddTravel(
+                            Travel(
+                                "",
+                                "",
+                                "",
+                                listOf(),
+                                "",
+                                "",
+                                listOf(),
+                                0.0,
+                                Coin("")
+                            )
+                        )
 
                     })
             }

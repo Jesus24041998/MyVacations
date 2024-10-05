@@ -60,13 +60,15 @@
     <string name="addtraveltitle">Add a trip</string>
     <string name="edittraveltitle">Edit the trip</string>
     <string name="errormessagelns">Only letters, numbers and spaces are allowed</string>
-    <string name="errormessage20c">The text cannot be longer than 20 characters</string><string name="errormessage120c">The text cannot be longer than 120 characters</string>
+    <string name="errormessage20c">The text cannot be longer than 20 characters</string>
+    <string name="errormessage120c">The text cannot be longer than 120 characters</string>
     <string name="errormessage200c">The text cannot be longer than 200 characters</string>
     <string name="nametravel">Trip name</string>
     <string name="traveldescription">Trip description</string>
     <string name="travelstartdate">Start date</string>
     <string name="travelenddate">End date</string>
-    <string name="errorfipff">The start date cannot be after the end date</string><string name="errorfiapffa">The start year cannot be greater than the end year</string>
+    <string name="errorfipff">The start date cannot be after the end date</string>
+    <string name="errorfiapffa">The start year cannot be greater than the end year</string>
     <string name="travelactivity">Activities</string>
     <string name="travelpriceactivities">Total price of activities:</string>
     <string name="travelextra">Extras</string>

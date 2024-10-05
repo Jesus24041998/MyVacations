@@ -34,7 +34,7 @@ import java.util.Locale
 @Preview(showBackground = true)
 private fun PoliticsPreview() {
     MyVacationsTheme {
-        PoliticsView(false,"https://sites.google.com/view/myvacationses/politica")
+        PoliticsView(false, "https://sites.google.com/view/myvacationses/politica")
     }
 }
 
@@ -46,12 +46,17 @@ fun Politics(navController: NavHostController, viewModel: HomeViewModel = hiltVi
     LaunchedEffect(Unit) {
         viewModel.loadingState(true)
     }
-    PoliticsView(loading,urlPolitica,navController,viewModel)
+    PoliticsView(loading, urlPolitica, navController, viewModel)
 }
+
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-private fun PoliticsView(loading: Boolean, urlPolitica:String, navController: NavHostController? = null, viewModel: HomeViewModel? = null)
-{
+private fun PoliticsView(
+    loading: Boolean,
+    urlPolitica: String,
+    navController: NavHostController? = null,
+    viewModel: HomeViewModel? = null
+) {
     Scaffold(
         topBar = {
             IconButton(onClick = {
@@ -78,7 +83,7 @@ private fun PoliticsView(loading: Boolean, urlPolitica:String, navController: Na
                     loadUrl(urlPolitica)
                 }
             })
-            if(loading) {
+            if (loading) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()

@@ -74,21 +74,30 @@ private fun OpenNavigation() {
                 onNavigateToPolitics = {
                     navigateToPolitics("HomeScreen", navController)
                 },
-                onNavigateToAddTravel = {
-                    travel ->
+                onNavigateToAddTravel = { travel ->
                     navigateToAddTravel("HomeScreen", navController, travel)
                 })
         }
         composable("PoliticScreen") {
-           Politics(navController = navController)
+            Politics(navController = navController)
         }
         composable(
             "AddTravelScreen" + "/{travelJson}",
             arguments = listOf(navArgument("travelJson") { type = NavType.StringType })
         ) { backStackEntry ->
             val travelJson = backStackEntry.arguments?.getString("travelJson")
-            val travel = travelJson?.let { Json.decodeFromString<Travel>(it) } ?: Travel("", "", "", emptyList(), "", "", emptyList(), 0.0, Coin())
-            AddTravelView(travel,navController = navController)
+            val travel = travelJson?.let { Json.decodeFromString<Travel>(it) } ?: Travel(
+                "",
+                "",
+                "",
+                emptyList(),
+                "",
+                "",
+                emptyList(),
+                0.0,
+                Coin()
+            )
+            AddTravelView(travel, navController = navController)
         }
     }
 }
@@ -108,7 +117,7 @@ private fun navigateToLogin(window: String, navController: NavHostController) {
 }
 
 private fun navigateToHome(window: String, navController: NavHostController) {
-    val route = if(window == "SplashScreen") "HomeScreen/"+true else "HomeScreen/"+false
+    val route = if (window == "SplashScreen") "HomeScreen/" + true else "HomeScreen/" + false
     navController.navigate(
         route = route,
         navOptions {
