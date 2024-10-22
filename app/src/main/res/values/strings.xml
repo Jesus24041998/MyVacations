@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MyVacations</string>
     <string name="no_internet">No internet connection</string>
-
+    <string name="empty" />
     <!-- LoginScreen -->
     <string name="lshead">Login or signing</string>
     <string name="lcontinue">Continue</string>
@@ -40,6 +40,7 @@
     <string name="totalspended">Total spended</string>
     <string name="titleBackup">Backup travels</string>
     <string name="subtitleBackup">Do you want to backup your travels?,This will save your local travels in the cloud.</string>
+    <string name="titleNoDataBackup">No data to backup, all data is already in the cloud</string>
 
     <!-- AccountScreen -->
     <string name="accountprofile">Profile</string>

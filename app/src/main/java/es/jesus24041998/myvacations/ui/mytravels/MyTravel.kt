@@ -11,120 +11,98 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import es.jesus24041998.myvacations.R
 import es.jesus24041998.myvacations.base.BaseScreen
-import es.jesus24041998.myvacations.ui.datastore.Activity
 import es.jesus24041998.myvacations.ui.datastore.Coin
-import es.jesus24041998.myvacations.ui.datastore.Extra
 import es.jesus24041998.myvacations.ui.datastore.Travel
 import es.jesus24041998.myvacations.ui.home.HomeViewModel
 import es.jesus24041998.myvacations.ui.theme.MyVacationsTheme
+import es.jesus24041998.myvacations.utils.MyAlertDialog
 import es.jesus24041998.myvacations.utils.MyListTravel
-import es.jesus24041998.myvacations.utils.NetworkUtilities
 import es.jesus24041998.myvacations.utils.SnackBarViewError
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import kotlinx.coroutines.launch
 
 @Composable
 @Preview(showBackground = true)
 private fun MyTravelPreview() {
     MyVacationsTheme {
-        MyTravelView({}, false, hiltViewModel())
+        MyTravelView()
     }
 }
 
 @Composable
 fun MyTravel(
+    viewModel: HomeViewModel,
     onNavigateToAddTravel: (travel: Travel) -> Unit,
-    viewModel: HomeViewModel = hiltViewModel()
 ) {
     val loading by viewModel.isLoading.observeAsState(false)
-    MyTravelView(onNavigateToAddTravel, loading, viewModel)
+    val isInternetAvailable by viewModel.isConnection.observeAsState(true)
+    val travels by viewModel.travels.collectAsState(initial = emptyList())
+    MyTravelView(travels, onNavigateToAddTravel, loading, viewModel, isInternetAvailable)
 }
 
 @Composable
 private fun MyTravelView(
-    onNavigateToAddTravel: (travel: Travel) -> Unit,
-    loading: Boolean,
-    viewModel: HomeViewModel
+    travels: List<Travel> = emptyList(),
+    onNavigateToAddTravel: (travel: Travel) -> Unit = {},
+    loading: Boolean = false,
+    viewModel: HomeViewModel? = null,
+    isInternetAvailable: Boolean = true
 ) {
-    val travels by viewModel.travels.collectAsState(initial = emptyList())
     val snackbarHostState = remember { SnackbarHostState() }
-    val context = LocalContext.current
-    val isInternetNotAvailable =
-        snapshotFlow { !NetworkUtilities.isInternetAvailable(context) }.collectAsState(initial = false)
-
-    LaunchedEffect(Unit) {
-        viewModel.getTravelsLocal()
-    }
-    val activity = listOf(
-        Activity(
-            name = "Visita cazorla",
-            description = "Visitamos Cazorla",
-            initDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-            1.0
-        ),
-        Activity(
-            name = "Ruta cerrada de Utrero",
-            description = "La ruta se encuentra en Cazorla",
-            initDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-        ),
-        Activity(
-            name = "Ruta rio Barosa",
-            description = "La ruta se encuentra al lado del rio Barosa",
-            initDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-        )
-    )
-    val extra = listOf(
-        Extra(description = "Cerveza", priceOrNot = 3.0),
-        Extra(description = "Cafe", priceOrNot = 1.0)
-    )
-    // Crear un nuevo viaje
-    val newTravel = Travel(
-        id = "1", //(viewModel.getCurrentUser()?.uid + "_" + name + travels.size + 1),
-        name = "Cazorla",
-        description = "Un viaje a Cazorla , veremos sus calles y monumentos , tambien haremos un poco de ruta por su montaña",
-        activityList = activity,
-        initDate = "26/09/2024",
-        endDate = "26/09/2024",
-        extraList = extra,
-        total = 200.0,
-        coin = Coin("USD")
-    )
-
+    val scope = rememberCoroutineScope()
+    val noInternetMessage = stringResource(id = R.string.no_internet)
+    var dialogNoNeedBackup by remember { mutableStateOf(false) }
+    //TODO AGREGAR PEQUEÑA GUIA CUANDO ESTE DISPONIBLE LA NUBE SELECTORA
     BaseScreen(content = {
         Scaffold(
-            snackbarHost = { SnackBarViewError(snackbarHostState) }
+            snackbarHost = {
+                SnackBarViewError(snackbarHostState)
+            }
         ) { innerPadding ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
             ) {
-                if (isInternetNotAvailable.value) {
-                    val nointernet = stringResource(id = R.string.no_internet)
-                    LaunchedEffect(key1 = snackbarHostState) {
-                        snackbarHostState.showSnackbar(
-                            message = nointernet,
-                            duration = SnackbarDuration.Indefinite
-                        )
+                LaunchedEffect(isInternetAvailable) {
+                    if (!isInternetAvailable) {
+                        scope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = noInternetMessage,
+                                duration = SnackbarDuration.Short
+                            )
+                        }
+                    }
+                }
+                if (dialogNoNeedBackup) {
+                    MyAlertDialog(
+                        false,
+                        onConfirm = {
+                            dialogNoNeedBackup = false
+                        },
+                        title = R.string.empty,
+                        subtitle = R.string.titleNoDataBackup
+                    ) {
+                        dialogNoNeedBackup = false
                     }
                 }
 
-                MyListTravel(user = viewModel.getCurrentUser(),
+                MyListTravel(user = viewModel?.getCurrentUser(),
                     items = travels,
                     position = 0,
                     callback = { index ->
                         travels[index].let {
                             onNavigateToAddTravel(
                                 Travel(
+                                    it.online,
                                     it.id,
                                     it.name,
                                     it.description,
@@ -138,10 +116,17 @@ private fun MyTravelView(
                             )
                         }
                     },
-                    callbackBackUp = { if (viewModel.getCurrentUser()?.isAnonymous == false) viewModel.syncWithDataBase() },
+                    callbackBackUp = {
+                        if (travels.any { !it.online }) {
+                            viewModel?.syncWithDataBase()
+                        } else {
+                            dialogNoNeedBackup = true
+                        }
+                    },
                     callbackNew = {
                         onNavigateToAddTravel(
                             Travel(
+                                false,
                                 "",
                                 "",
                                 "",
@@ -158,50 +143,4 @@ private fun MyTravelView(
             }
         }
     }, isLoading = loading)
-
-
-//TODO Aplicar el tipo de moneda para cada viaje
-    /*
-      var expanded by remember { mutableStateOf(false) }
-      Row(modifier = Modifier.padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Text(modifier = Modifier.weight(1f),
-                        text = stringResource(id = R.string.accountcoin)+" ",
-                        style = MaterialTheme.typography.bodyLarge.copy(fontSize = 14.sp)
-                    )
-                    coin?.let {
-                        ExposedDropdownMenuBox(modifier = Modifier.weight(1f),
-                            expanded = expanded,
-                            onExpandedChange = { expanded = !expanded }
-                        ) {
-                            TextField(
-                                readOnly = true,
-                                value = Currency.getInstance(coin.currencyCode).getSymbol(
-                                    Locale.US),
-                                onValueChange = { },
-                                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },modifier = Modifier
-                                    .fillMaxWidth()
-                                    .menuAnchor(MenuAnchorType.PrimaryNotEditable,true)
-                            )
-                            ExposedDropdownMenu(
-                                expanded = expanded,
-                                onDismissRequest = { expanded = false }
-                            ) {
-                                monedasMasFamosas.forEach { selectionOption ->
-                                    Currency.getInstance(selectionOption).let {
-                                        DropdownMenuItem(text = {
-                                            Text(text = it.currencyCode +" | "+it.getSymbol(Locale.US))
-                                        }, onClick = {
-                                            viewModel.updateCoin(Coin(selectionOption))
-                                            expanded = false
-                                        })
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-     */
-
 }

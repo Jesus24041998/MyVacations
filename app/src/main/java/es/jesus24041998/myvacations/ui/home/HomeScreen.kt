@@ -10,6 +10,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.painterResource
@@ -23,6 +24,7 @@ import es.jesus24041998.myvacations.ui.mytravels.MyTravel
 import es.jesus24041998.myvacations.ui.profile.ProfileScreen
 import es.jesus24041998.myvacations.ui.search.SearchScreen
 import es.jesus24041998.myvacations.ui.theme.MyVacationsTheme
+import kotlinx.coroutines.launch
 
 enum class HomeDestination(
     @DrawableRes val selectedIcon: Int,
@@ -50,7 +52,7 @@ enum class HomeDestination(
 @Preview(showBackground = true)
 private fun HomeScreenPreview() {
     MyVacationsTheme {
-        HomeScreenView({}, {}, {}, false)
+        HomeScreenView()
     }
 }
 
@@ -64,22 +66,34 @@ fun HomeScreen(
 ) {
     val loading by viewModel.isLoading.observeAsState(false)
     val loginExecuted = viewModel.loginExecuted
+    val scope = rememberCoroutineScope()
     LaunchedEffect(Unit) {
-        if ((viewModel.getCurrentUser() == null || viewModel.getCurrentUser()?.isAnonymous == true || viewModel.getCurrentUser()?.isEmailVerified == false) && fromSplash && !loginExecuted.value) {
-            loginExecuted.value = true
-            onNavigateToLogin()
+        scope.launch {
+            viewModel.getTravels()
+            if ((viewModel.getCurrentUser() == null || viewModel.getCurrentUser()?.isAnonymous == true || viewModel.getCurrentUser()?.isEmailVerified == false) && fromSplash && !loginExecuted.value) {
+                loginExecuted.value = true
+                onNavigateToLogin()
+            }
         }
     }
-    HomeScreenView(onNavigateToLogin, onNavigateToPolitics, onNavigateToAddTravel, loading)
+    HomeScreenView(
+        viewModel,
+        onNavigateToLogin,
+        onNavigateToPolitics,
+        onNavigateToAddTravel,
+        loading
+    )
 }
 
 @Composable
 private fun HomeScreenView(
-    onNavigateToLogin: () -> Unit,
-    onNavigateToPolitics: () -> Unit,
-    onNavigateToAddTravel: (travel: Travel) -> Unit,
-    loading: Boolean
+    viewModel: HomeViewModel? = null,
+    onNavigateToLogin: () -> Unit = {},
+    onNavigateToPolitics: () -> Unit = {},
+    onNavigateToAddTravel: (travel: Travel) -> Unit = {},
+    loading: Boolean = false
 ) {
+
     BaseScreen(content = {
         var currentDestination by rememberSaveable { mutableStateOf(HomeDestination.MYTRAVELS) }
         NavigationSuiteScaffold(
@@ -100,9 +114,9 @@ private fun HomeScreenView(
             }
         ) {
             when (currentDestination.name) {
-                "MYTRAVELS" -> MyTravel(onNavigateToAddTravel)
-                "SEARCH" -> SearchScreen()
-                "PROFILE" -> ProfileScreen(onNavigateToLogin, onNavigateToPolitics)
+                "MYTRAVELS" -> viewModel?.let { MyTravel(it, onNavigateToAddTravel) }
+                "SEARCH" -> viewModel?.let { SearchScreen(it) }
+                "PROFILE" -> viewModel?.let { ProfileScreen(it, onNavigateToLogin, onNavigateToPolitics) }
             }
         }
     }, isLoading = loading)

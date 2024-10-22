@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -193,10 +194,12 @@ fun MyDatePickerDialog(
 
 @Composable
 fun MyAlertDialog(
+    dismissButton: Boolean = true,
     onConfirm: () -> Unit,
     @StringRes title: Int,
     @StringRes subtitle: Int,
     onDismissRequest: () -> Unit
+
 ) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
@@ -208,8 +211,10 @@ fun MyAlertDialog(
             }
         },
         dismissButton = {
-            Button(onClick = onDismissRequest) {
-                Text(stringResource(R.string.lcancel))
+            if(dismissButton) {
+                Button(onClick = onDismissRequest) {
+                    Text(stringResource(R.string.lcancel))
+                }
             }
         }
     )
@@ -242,7 +247,7 @@ fun MyListTravel(
                     .clip(CircleShape), onClick = { callbackNew() }) {
                     Icon(imageVector = Icons.Filled.Add, contentDescription = "Agregar")
                 }
-                Spacer(modifier = Modifier.size(64.dp))
+                Spacer(modifier = Modifier.size(16.dp))
             }
         }
     ) { innerPadding ->
@@ -291,15 +296,18 @@ fun MyListTravel(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            modifier = Modifier.weight(2.5f),
+                            modifier = Modifier.weight(2.3f),
                             style = MaterialTheme.typography.titleLarge,
                             text = stringResource(id = R.string.travelname)
                         )
                         Text(
-                            modifier = Modifier.weight(1f),
+                            modifier = Modifier.weight(1.2f),
                             style = MaterialTheme.typography.titleLarge,
                             text = stringResource(id = R.string.totalspended)
                         )
+                        if(floatingBackup) {
+                            Spacer(modifier = Modifier.weight(0.5f))
+                        }
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                     HorizontalDivider()
@@ -318,7 +326,7 @@ fun MyListTravel(
                 ) {
 
                     Text(
-                        modifier = Modifier.weight(2.5f),
+                        modifier = Modifier.weight(2.3f),
                         style = MaterialTheme.typography.titleLarge,
                         text = ellipsizeTextScreen(
                             items[index].name,
@@ -327,11 +335,20 @@ fun MyListTravel(
                     )
 
                     Text(
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.weight(1.2f),
                         style = MaterialTheme.typography.titleMedium,
                         text = items[index].total.toString()
                             .plus(" " + getSymbol(items[index].coin.currencyCode))
                     )
+
+                    if(floatingBackup) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_backup),
+                            contentDescription = "backup",
+                            modifier = Modifier.size(25.dp).weight(0.5f),
+                            tint = if (items[index].online) Color.Green else Color.Red
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))

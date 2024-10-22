@@ -21,34 +21,36 @@ data class Coin(
 
 @Serializable
 data class Activity(
-    val name: String,
-    val description: String,
-    val initDate: String,
+    val name: String = "",
+    val description: String = "",
+    val initDate: String = "",
     val priceOrNot: Double? = null,
 )
 
 @Serializable
 data class Extra(
-    val description: String,
+    val description: String = "",
     val priceOrNot: Double? = null,
 )
 
 @Serializable
 data class Travel(
-    val id: String,
-    val name: String,
-    val description: String,
-    val activityList: List<Activity>,
-    val initDate: String,
-    val endDate: String,
-    val extraList: List<Extra>,
-    val total: Double,
-    val coin: Coin
+    val online: Boolean = false,
+    val id: String = "",
+    val name: String = "",
+    val description: String = "",
+    val activityList: List<Activity> = emptyList(),
+    val initDate: String = "",
+    val endDate: String = "",
+    val extraList: List<Extra> = emptyList(),
+    val total: Double = 0.0,
+    val coin: Coin = Coin()
 )
 
 @Serializable
 data class SettingsApp(
     val travels: List<Travel> = emptyList(),
+    val firstTime: Boolean = true
 )
 
 @Singleton

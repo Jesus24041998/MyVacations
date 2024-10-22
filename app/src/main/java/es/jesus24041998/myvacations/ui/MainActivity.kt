@@ -1,6 +1,7 @@
 package es.jesus24041998.myvacations.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +21,7 @@ import es.jesus24041998.myvacations.login.LoginScreen
 import es.jesus24041998.myvacations.ui.datastore.Coin
 import es.jesus24041998.myvacations.ui.datastore.Travel
 import es.jesus24041998.myvacations.ui.home.HomeScreen
-import es.jesus24041998.myvacations.ui.mytravels.AddTravelView
+import es.jesus24041998.myvacations.ui.mytravels.AddTravelScreen
 import es.jesus24041998.myvacations.ui.politics.Politics
 import es.jesus24041998.myvacations.ui.splash.SplashScreen
 import es.jesus24041998.myvacations.ui.theme.MyVacationsTheme
@@ -31,7 +32,6 @@ import java.net.URLEncoder
 @ExperimentalMaterial3Api
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -87,6 +87,7 @@ private fun OpenNavigation() {
         ) { backStackEntry ->
             val travelJson = backStackEntry.arguments?.getString("travelJson")
             val travel = travelJson?.let { Json.decodeFromString<Travel>(it) } ?: Travel(
+                false,
                 "",
                 "",
                 "",
@@ -97,7 +98,7 @@ private fun OpenNavigation() {
                 0.0,
                 Coin()
             )
-            AddTravelView(travel, navController = navController)
+            AddTravelScreen(travel, navController = navController)
         }
     }
 }

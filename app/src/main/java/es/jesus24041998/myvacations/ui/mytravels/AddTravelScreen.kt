@@ -40,11 +40,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableDoubleState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -63,15 +65,16 @@ import es.jesus24041998.myvacations.ui.datastore.Activity
 import es.jesus24041998.myvacations.ui.datastore.Coin
 import es.jesus24041998.myvacations.ui.datastore.Extra
 import es.jesus24041998.myvacations.ui.datastore.Travel
-import es.jesus24041998.myvacations.ui.home.HomeViewModel
 import es.jesus24041998.myvacations.ui.theme.MyVacationsTheme
 import es.jesus24041998.myvacations.utils.MyDatePickerDialog
 import es.jesus24041998.myvacations.utils.getSymbol
 import es.jesus24041998.myvacations.utils.monedasMasFamosas
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Currency
 import java.util.Locale
+import kotlin.random.Random
 
 @ExperimentalMaterial3Api
 @Composable
@@ -84,10 +87,29 @@ private fun AddTravelPreview() {
 
 @ExperimentalMaterial3Api
 @Composable
-fun AddTravelView(
-    travel: Travel = Travel("", "", "", listOf(), "", "", listOf(), 0.0, Coin("")),
-    viewModel: HomeViewModel = hiltViewModel(),
+@Preview(showBackground = true)
+private fun ActivityFormularyPreview() {
+    MyVacationsTheme {
+        ActivityFormulary()
+    }
+}
+
+@ExperimentalMaterial3Api
+@Composable
+fun AddTravelScreen(
+    travel: Travel,
+    viewModel: AddTravelViewModel = hiltViewModel(),
     navController: NavHostController? = rememberNavController()
+) {
+    AddTravelView(travel, viewModel, navController)
+}
+
+@ExperimentalMaterial3Api
+@Composable
+fun AddTravelView(
+    travel: Travel = Travel(false,"", "", "", listOf(), "", "", listOf(), 0.0, Coin("")),
+    viewModel: AddTravelViewModel? = null,
+    navController: NavHostController? = null
 ) {
     Scaffold(
         topBar = {
@@ -113,12 +135,14 @@ fun AddTravelView(
             }
         },
         content = { paddingValues ->
-            FormularyModeView(
-                travel,
-                viewModel = viewModel,
-                paddingValues = paddingValues,
-                navController = navController
-            )
+            viewModel?.let {
+                FormularyModeView(
+                    travel,
+                    viewModel = it,
+                    paddingValues = paddingValues,
+                    navController = navController
+                )
+            }
         })
 }
 
@@ -127,7 +151,7 @@ fun AddTravelView(
 @Composable
 fun FormularyModeView(
     travel: Travel,
-    viewModel: HomeViewModel,
+    viewModel: AddTravelViewModel,
     paddingValues: PaddingValues,
     navController: NavHostController?
 ) {
@@ -264,7 +288,7 @@ fun FormularyModeView(
 private fun TravelFormulary(
     travel: Travel,
     navController: NavHostController?,
-    viewModel: HomeViewModel,
+    viewModel: AddTravelViewModel,
     paddingValues: PaddingValues,
     tripName: MutableState<String>,
     tripDescription: MutableState<String>,
@@ -292,7 +316,7 @@ private fun TravelFormulary(
     extrasPrice: MutableState<String>,
     modeExtras: MutableState<List<Extra>>,
     errorMessageDescriptionExtra: MutableState<String>,
-    errorMessagePricesExtra: MutableState<String>,
+    errorMessagePricesExtra: MutableState<String>
 ) {
     val errorMessageName = remember { mutableStateOf("") }
     val errorMessageDescription = remember { mutableStateOf("") }
@@ -731,20 +755,19 @@ private fun TravelFormulary(
                 Button(onClick = {
                     if (!error.value) {
                         viewModel.apply {
-                            getTravelsLocal()
                             travel.let {
                                 if (it.id.isNotEmpty()) viewModel.deleteTravel(it.id)
                                 saveTravelMain(
                                     Travel(
-                                        it.id.ifEmpty { viewModel.getCurrentUser()?.uid + "_" + tripName.value + travels.value.size + 1 },
-                                        tripName.value,
-                                        tripDescription.value,
-                                        activities.value,
-                                        startDate.value.format(datePattern),
-                                        endDate.value.format(datePattern),
-                                        extras.value,
-                                        price.doubleValue,
-                                        currency.value
+                                        id = it.id.ifEmpty { viewModel.getCurrentUser()?.uid + "_" + tripName.value + Random.nextInt(1, 200000) },
+                                        name = tripName.value,
+                                        description = tripDescription.value,
+                                        activityList = activities.value,
+                                        initDate = startDate.value.format(datePattern),
+                                        endDate = endDate.value.format(datePattern),
+                                        extraList = extras.value,
+                                        total = price.doubleValue,
+                                        coin = currency.value
                                     )
                                 )
                             }
@@ -762,24 +785,24 @@ private fun TravelFormulary(
 @ExperimentalMaterial3Api
 @Composable
 private fun ActivityFormulary(
-    paddingValues: PaddingValues,
-    activitiesDialog: MutableState<Boolean>,
-    modeActivity: MutableState<List<Activity>>,
-    activities: MutableState<List<Activity>>,
-    activityName: MutableState<String>,
-    activityDescription: MutableState<String>,
-    activityStartDate: MutableState<LocalDate>,
-    activityPrice: MutableState<String>,
-    allowedPattern: Regex,
-    error: MutableState<Boolean>,
-    errorMessageNameActivity: MutableState<String>,
-    errorMessageDescriptionActivity: MutableState<String>,
-    errorMessageDatesActivity: MutableState<String>,
-    errorMessagePriceActivity: MutableState<String>,
-    startDate: MutableState<LocalDate>,
-    endDate: MutableState<LocalDate>,
-    datePattern: DateTimeFormatter,
-    currency: MutableState<Coin>
+    paddingValues: PaddingValues = PaddingValues(),
+    activitiesDialog: MutableState<Boolean> = mutableStateOf(false),
+    modeActivity: MutableState<List<Activity>> = mutableStateOf(listOf()),
+    activities: MutableState<List<Activity>> = mutableStateOf(listOf()),
+    activityName: MutableState<String> = mutableStateOf(""),
+    activityDescription: MutableState<String> = mutableStateOf(""),
+    activityStartDate: MutableState<LocalDate> = mutableStateOf(LocalDate.now()),
+    activityPrice: MutableState<String> = mutableStateOf(""),
+    allowedPattern: Regex = Regex("^[a-zA-Z0-9 áéíóúÁÉÍÓÚñÑ]*$"),
+    error: MutableState<Boolean> = mutableStateOf(false),
+    errorMessageNameActivity: MutableState<String> = mutableStateOf(""),
+    errorMessageDescriptionActivity: MutableState<String> = mutableStateOf(""),
+    errorMessageDatesActivity: MutableState<String> = mutableStateOf(""),
+    errorMessagePriceActivity: MutableState<String> = mutableStateOf(""),
+    startDate: MutableState<LocalDate> = mutableStateOf(LocalDate.now()),
+    endDate: MutableState<LocalDate> = mutableStateOf(LocalDate.now()),
+    datePattern: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"),
+    currency: MutableState<Coin> = mutableStateOf(Coin())
 ) {
     val errorEmpty = remember { mutableStateOf("") }
     val showStartDateDialogActivity = remember { mutableStateOf(false) }
@@ -1191,6 +1214,7 @@ fun ExtrasFormulary(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
+                //TODO Modificar el boton para que tambien elimine cuando este en modo edición
                 Button(onClick = { extrasDialog.value = false }) {
                     Text(text = stringResource(id = R.string.lcancel))
                 }

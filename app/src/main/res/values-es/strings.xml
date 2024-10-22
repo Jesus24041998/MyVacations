@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Mis Vacaciones</string>
     <string name="no_internet">No hay conexión a internet</string>
-
+    <string name="empty" />
     <!-- LoginScreen -->
     <string name="lshead">Inicia sesión o regístrate</string>
     <string name="lcontinue">Continuar</string>
@@ -39,7 +39,7 @@
     <string name="totalspended">Total gastado</string>
     <string name="titleBackup">Respaldar tus viajes</string>
     <string name="subtitleBackup">¿Quieres respaldar tus viajes?, Esto hara que todos tus viajes en local se guarden en la nube.</string>
-
+    <string name="titleNoDataBackup">No hay datos para respaldar, todos los datos ya están en la nube</string>
     <!-- AccountScreen -->
     <string name="accountprofile">Perfil</string>
     <string name="accountusername">Nombre de usuario</string>

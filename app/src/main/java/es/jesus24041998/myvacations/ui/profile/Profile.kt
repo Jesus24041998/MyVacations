@@ -31,6 +31,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -47,15 +48,15 @@ import es.jesus24041998.myvacations.utils.MyAlertDialog
 @Preview(showBackground = true)
 private fun ProfilePreview() {
     MyVacationsTheme {
-        ProfileView(onNavigateToLogin = {}, onNavigateToPolitics = {})
+        ProfileView()
     }
 }
 
 @Composable
 fun ProfileScreen(
+    viewModel: HomeViewModel,
     onNavigateToLogin: () -> Unit,
     onNavigateToPolitics: () -> Unit,
-    viewModel: HomeViewModel = hiltViewModel()
 ) {
     val loading by viewModel.isLoading.observeAsState(false)
     ProfileView(viewModel, onNavigateToLogin, onNavigateToPolitics, loading)
@@ -65,15 +66,15 @@ fun ProfileScreen(
 @Composable
 private fun ProfileView(
     viewModel: HomeViewModel? = null,
-    onNavigateToLogin: () -> Unit,
-    onNavigateToPolitics: () -> Unit,
+    onNavigateToLogin: () -> Unit = {},
+    onNavigateToPolitics: () -> Unit = {},
     loading: Boolean = false,
 ) {
     val context = LocalContext.current
     var showDialog by remember { mutableStateOf(false) }
     val user = viewModel?.getCurrentUser()
     val userName =
-        if (user?.isAnonymous == true) stringResource(id = R.string.accountguest) else user?.displayName
+        if (user?.isAnonymous == true) stringResource(id = R.string.accountguest) else user?.email?.split("@")?.get(0)
             ?: stringResource(id = R.string.accountguest)
     var showInfo by remember { mutableStateOf(false) }
     val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
@@ -106,9 +107,11 @@ private fun ProfileView(
                 Text(
                     text = userName,
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        fontSize = 16.sp,
+                        fontSize = if(userName == stringResource(id = R.string.accountguest)) 16.sp else 14.sp,
                         fontWeight = FontWeight.Bold
-                    )
+                    ),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                 )
                 if (user?.isAnonymous == true) {
                     IconButton(onClick = { showInfo = true }) {

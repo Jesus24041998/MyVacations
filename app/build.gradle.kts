@@ -102,6 +102,9 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.json)
 
+    //MaterialTapTarget
+    implementation(libs.material.tap.target.prompt)
+
     testImplementation(libs.junit)
     testImplementation(libs.jetbrains.kotlinx.coroutines.test)
     testImplementation(libs.mockk)
